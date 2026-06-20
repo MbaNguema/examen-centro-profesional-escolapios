@@ -194,7 +194,7 @@ async function enviarResultados() {
                 // CAMBIO 1: Cambiamos "no-cors" por "cors"
                 // CAMBIO 2: Añadimos un await y una verificación de respuesta
                 const response = await fetch("https://script.google.com/macros/s/AKfycbzaAc8qDBizDqo3j1TkaDzCpQF-3kid92SP0xT9eosNH41Nf--ZQffN4cVJaF-M4CjM/exec", {
-                    method: "POST",
+                    method: "GET",
                     mode: "cors", // Importante para la comunicación bidireccional
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(datos)
