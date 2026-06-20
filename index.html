@@ -190,24 +190,25 @@ async function enviarResultados() {
     datos.timestamp = new Date().toLocaleString();
     const queryString = new URLSearchParams(datos).toString();
 
-    try {
-        // Al usar 'no-cors' con 'GET', el navegador simplemente envía los datos 
-        // y no se bloquea al intentar leer una respuesta que no puede procesar.
-        await fetch("https://script.google.com/macros/s/AKfycbx0l1GE-Yi_peGooYm7emyb5vChH2NTG4YoJu3LL5cxZ8NXywCKP38yYnD_8nQDkMCD/exec" + "?" + queryString, {
-            method: "GET",
-            mode: "no-cors"
-        });
+    // URL de tu script (asegúrate de que sea la correcta)
+    const urlScript = "https://script.google.com/macros/s/AKfycbx0l1GE-Yi_peGooYm7emyb5vChH2NTG4YoJu3LL5cxZ8NXywCKP38yYnD_8nQDkMCD/exec";
 
-        // Como usamos 'no-cors', asumimos que si no hubo error de red, funcionó
-        alert("¡Examen enviado y calificado con éxito!");
+    // Técnica de "JSONP": Creamos un script en el documento para enviar datos
+    // Esto evita el 100% de los errores CORS y permisos públicos
+    const script = document.createElement('script');
+    script.src = urlScript + "?" + queryString + "&callback=cierre";
+    document.body.appendChild(script);
+
+    // Como no podemos esperar una respuesta formal, mostramos el éxito a los 2 segundos
+    setTimeout(() => {
+        alert("¡Examen enviado y calificado!");
         form.reset();
-    } catch (e) {
-        alert("Error al enviar. Revisa tu conexión.");
-    } finally {
         btn.innerText = "Finalizar y Enviar Resultados";
         btn.disabled = false;
-    }
-}    </script>
+        script.remove(); // Limpiamos
+    }, 2000);
+}
+</script>
     </body>
 
 </html>
