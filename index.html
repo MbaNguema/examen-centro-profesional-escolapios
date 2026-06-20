@@ -193,7 +193,7 @@ async function enviarResultados() {
             try {
                 // CAMBIO 1: Cambiamos "no-cors" por "cors"
                 // CAMBIO 2: Añadimos un await y una verificación de respuesta
-                const response = await fetch("https://script.google.com/macros/s/AKfycbyfTSMzo2QH9BwGodejQw3wjQQrxJIVynS6a1ipT8yMz59wYcF99Yf_ofzlJ9HA9rCy/exec", {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbzaAc8qDBizDqo3j1TkaDzCpQF-3kid92SP0xT9eosNH41Nf--ZQffN4cVJaF-M4CjM/exec", {
                     method: "POST",
                     mode: "cors", // Importante para la comunicación bidireccional
                     headers: { "Content-Type": "application/json" },
