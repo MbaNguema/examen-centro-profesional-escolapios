@@ -166,30 +166,31 @@
     const btn = document.getElementById('btnEnviar');
     const form = document.getElementById('examenForm');
     
-    // Convertimos el formulario a un objeto simple
+    // 1. Obtener datos del formulario
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+    const urlEncoded = new URLSearchParams(formData).toString(); // <--- AQUÍ SE DEFINE
 
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
     try {
+        // 2. Enviar al servidor
         await fetch("https://script.google.com/macros/s/AKfycbxkewODMSlvuKFi8xYFjW4dkgMk5HOdNSUn-CYaHO9XJ_XefaHLosO9N7Y76JrIHkf6/exec", {
             method: "POST",
-            mode: "no-cors",
-            // IMPORTANTE: Al no usar no-cors, permitimos que el navegador maneje la respuesta
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: urlEncoded
+            mode: "no-cors", // Evita el error de bloqueo de CORS
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: urlEncoded
         });
 
-        alert("¡Enviado!");
+        alert("Formulario enviado. Las notas aparecerán en la hoja en unos segundos.");
         form.reset();
     } catch (e) {
-        alert("Error: " + e);
+        alert("Error: " + e.message);
     } finally {
+        btn.innerText = "Finalizar y Enviar Resultados";
         btn.disabled = false;
-        btn.innerText = "Enviar";
     }
-}    </script>
+}
+    </script>
 </body>
 </html>
