@@ -163,34 +163,59 @@
         }
 
         async function enviarResultados() {
-    const btn = document.getElementById('btnEnviar');
-    const form = document.getElementById('examenForm');
-    
-    // 1. Obtener datos del formulario
-    const formData = new FormData(form);
-    const urlEncoded = new URLSearchParams(formData).toString(); // <--- AQUÍ SE DEFINE
+            const btn = document.getElementById('btnEnviar');
+            const form = document.getElementById('examenForm');
+            const formData = new FormData(form);
+            
+            btn.innerText = "Enviando respuestas...";
+            btn.disabled = true;
 
-    btn.innerText = "Enviando...";
-    btn.disabled = true;
+            const nombre = formData.get('nombre_alumno');
+            const fecha = formData.get('fecha_examen');
 
-    try {
-        // 2. Enviar al servidor
-        await fetch("https://script.google.com/macros/s/AKfycbxkewODMSlvuKFi8xYFjW4dkgMk5HOdNSUn-CYaHO9XJ_XefaHLosO9N7Y76JrIHkf6/exec", {
-            method: "POST",
-            mode: "no-cors", // Evita el error de bloqueo de CORS
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: urlEncoded
-        });
+            const preguntas = [
+                {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?"},
+                {id: 'c2', texto: "Explique la función del Backbone y del Cuarto de Telecomunicaciones."},
+                {id: 'c3', texto: "¿Para qué sirve un Patch Panel en un Rack?"},
+                {id: 'c4', texto: "En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales (Switch-Switch)?"},
+                {id: 'c5', texto: "Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'."},
+                {id: 'c6', texto: "Diferencia entre 'enable password' y 'enable secret'."},
+                {id: 'c7', texto: "Función de 'line vty 0 4' en un equipo Cisco."},
+                {id: 'c8', texto: "Pasos para configurar un servidor DHCP en un router (Packet Tracer)."},
+                {id: 'c9', texto: "Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1."},
+                {id: 'c10', texto: "Comando en la terminal del PC para verificar su configuración IP actual."},
+                {id: 'd1', texto: "¿Qué síntoma físico presenta una PC si la batería CMOS está agotada?"},
+                {id: 'd2', texto: "¿Qué pines mediría en una fuente ATX para verificar los 12V y 5V?"},
+                {id: 'd3', texto: "Pasos de mantenimiento físico para memoria RAM ante una BSOD."},
+                {id: 'd4', texto: "Escriba un script .bat (ipconfig, ping 8.8.8.8, ping google.com, pause)."},
+                {id: 'd5', texto: "¿Qué debe incluir un informe técnico tras una reparación?"}
+            ];
 
-        alert("Formulario enviado. Las notas aparecerán en la hoja en unos segundos.");
-        form.reset();
-    } catch (e) {
-        alert("Error: " + e.message);
-    } finally {
-        btn.innerText = "Finalizar y Enviar Resultados";
-        btn.disabled = false;
-    }
-}
+            try {
+                for (const p of preguntas) {
+                    const params = new URLSearchParams({
+                        nombre_alumno: nombre,
+                        fecha_examen: fecha,
+                        pregunta: p.texto,
+                        respuesta: formData.get(p.id) || "En blanco"
+                    });
+
+                    await fetch("https://script.google.com/macros/s/AKfycbxO3xvryhbm6-2yTKUk0okCa2JRK49XecK8geaUnxvLCNi-OZ5p417CXmpv5zxKbeGN/exec", {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: params
+                    });
+                }
+                alert("¡Examen enviado con éxito! Las notas aparecerán pronto en la hoja.");
+                form.reset();
+            } catch (e) {
+                alert("Error al enviar: " + e.message);
+            } finally {
+                btn.innerText = "Finalizar y Enviar Resultados";
+                btn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
