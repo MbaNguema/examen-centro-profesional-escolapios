@@ -185,30 +185,26 @@ async function enviarResultados() {
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
-    // Recopilar datos
-    const datos = Object.fromEntries(new FormData(form).entries());
-    datos.timestamp = new Date().toLocaleString();
-    const queryString = new URLSearchParams(datos).toString();
+    // Crear un objeto FormData
+    const formData = new FormData(form);
+    
+    try {
+        // Enviar por POST usando fetch normal
+        const response = await fetch("Thttps://script.google.com/macros/s/AKfycbysfeuoln8rBT0HpmzIuwHwmGEVIe6fxqZM1e4L82dvQqmdCMAO60KmYVmfDQssYiz_/exec", {
+            method: "POST",
+            body: formData // Esto envía los campos como formato de formulario
+        });
 
-    // URL de tu script (asegúrate de que sea la correcta)
-    const urlScript = "https://script.google.com/macros/s/AKfycbysfeuoln8rBT0HpmzIuwHwmGEVIe6fxqZM1e4L82dvQqmdCMAO60KmYVmfDQssYiz_/exec";
-
-    // Técnica de "JSONP": Creamos un script en el documento para enviar datos
-    // Esto evita el 100% de los errores CORS y permisos públicos
-    const script = document.createElement('script');
-    script.src = urlScript + "?" + queryString + "&callback=cierre";
-    document.body.appendChild(script);
-
-    // Como no podemos esperar una respuesta formal, mostramos el éxito a los 2 segundos
-    setTimeout(() => {
-        alert("¡Examen enviado y calificado!");
+        alert("¡Enviado con éxito!");
         form.reset();
+    } catch (e) {
+        alert("Error: " + e.message);
+    } finally {
         btn.innerText = "Finalizar y Enviar Resultados";
         btn.disabled = false;
-        script.remove(); // Limpiamos
-    }, 2000);
+    }
 }
-</script>
+    </script>
     </body>
 
 </html>
