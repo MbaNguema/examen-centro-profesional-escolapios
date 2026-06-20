@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Examen Técnico Integrado 2026</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #e2e8f0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: black;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .pregunta {
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        input,
+        textarea {
+            width: 95%;
+            margin-top: 10px;
+            padding: 10px;
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 4px;
+        }
+
+        button.send {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 6px;
+            display: block;
+        }
+
+        button.send:disabled {
+            background: #166534;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .datos-alumno {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #334155;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Examen Técnico Integrado 2026</h1>
+
+        <form id="examenForm">
+            <div class="datos-alumno">
+                <label>Nombre del Alumno:</label>
+                <input type="text" name="nombre_alumno" required>
+                <label style="margin-top:10px; display:block;">Fecha:</label>
+                <input type="date" name="fecha_examen" required>
+            </div>
+
+            <div class="tabs">
+                <button type="button" class="tab-btn active" onclick="openTab(event, 'cableado')">Cableado y
+                    Cisco</button>
+                <button type="button" class="tab-btn" onclick="openTab(event, 'diagnostico')">Diagnóstico II</button>
+            </div>
+
+            <div id="cableado" class="tab-content active">
+                <div class="pregunta"><label>1. ¿Qué es el cableado estructurado y cuál es su ventaja principal frente a
+                        instalaciones improvisadas?</label><textarea name="c1"></textarea></div>
+                <div class="pregunta"><label>2. Explique la función del Backbone y del Cuarto de
+                        Telecomunicaciones.</label><textarea name="c2"></textarea></div>
+                <div class="pregunta"><label>3. ¿Para qué sirve un Patch Panel en un Rack?</label><textarea
+                        name="c3"></textarea></div>
+                <div class="pregunta"><label>4. En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos
+                        iguales (Switch-Switch)?</label><input type="text" name="c4"></div>
+                <div class="pregunta"><label>5. Escriba los comandos para configurar: Hostname R1, enable secret
+                        'cisco', banner 'Acceso'.</label><textarea name="c5"></textarea></div>
+                <div class="pregunta"><label>6. Diferencia entre 'enable password' y 'enable secret'.</label><textarea
+                        name="c6"></textarea></div>
+                <div class="pregunta"><label>7. Función de 'line vty 0 4' en un equipo Cisco.</label><textarea
+                        name="c7"></textarea></div>
+                <div class="pregunta"><label>8. Pasos para configurar un servidor DHCP en un router (Packet
+                        Tracer).</label><textarea name="c8"></textarea></div>
+                <div class="pregunta"><label>9. Comando para levantar una interfaz (ej. g0/0) y asignarle IP
+                        192.168.1.1.</label><textarea name="c9"></textarea></div>
+                <div class="pregunta"><label>10. Comando en la terminal del PC para verificar su configuración IP
+                        actual.</label><input type="text" name="c10"></div>
+            </div>
+
+            <div id="diagnostico" class="tab-content">
+                <div class="pregunta"><label>1. ¿Qué síntoma físico presenta una PC si la batería CMOS está
+                        agotada?</label><input type="text" name="d1"></div>
+                <div class="pregunta"><label>2. ¿Qué pines mediría en una fuente ATX para verificar los 12V y
+                        5V?</label><textarea name="d2"></textarea></div>
+                <div class="pregunta"><label>3. Pasos de mantenimiento físico para memoria RAM ante una
+                        BSOD.</label><textarea name="d3"></textarea></div>
+                <div class="pregunta"><label>4. Escriba un script .bat (ipconfig, ping 8.8.8.8, ping google.com,
+                        pause).</label><textarea name="d4"></textarea></div>
+                <div class="pregunta"><label>5. ¿Qué debe incluir un informe técnico tras una
+                        reparación?</label><textarea name="d5"></textarea></div>
+            </div>
+
+            <button type="button" id="btnEnviar" class="send" onclick="enviarResultados()">Finalizar y Enviar
+                Resultados</button>
+        </form>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        async function enviarResultados() {
+            const btn = document.getElementById('btnEnviar');
+            const form = document.getElementById('examenForm');
+
+            // Cambiar estado del botón
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            const datos = Object.fromEntries(formData.entries());
+            datos.timestamp = new Date().toLocaleString();
+
+            try {
+                await fetch("https://script.google.com/macros/s/AKfycbyW3XNpdHkgH7PP-jX8Oi3XqGGvMTsIBXAP14uJTjzirzGOLx7D4-DLo5HJHBjEDl4_/exec", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(datos)
+                });
+
+                alert("¡Gracias por completar el examen! Los resultados han sido registrados. ¡Que tengas mucha suerte!");
+                form.reset(); // Limpiar formulario
+            } catch (error) {
+                alert("Hubo un error al enviar. Por favor, intenta de nuevo.");
+            } finally {
+                btn.innerText = "Finalizar y Enviar Resultados";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
