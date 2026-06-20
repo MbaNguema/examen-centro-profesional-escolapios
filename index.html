@@ -182,29 +182,29 @@
 async function enviarResultados() {
     const btn = document.getElementById('btnEnviar');
     const form = document.getElementById('examenForm');
+    
+    // Convertimos el formulario a un objeto simple
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
-    // Usamos FormData para que el navegador lo trate como un formulario estándar
-    const formData = new FormData(form);
-
     try {
-        // Usamos 'no-cors'. Con este modo, el navegador no espera una respuesta
-        // detallada, solo envía el paquete.
-        await fetch("https://script.google.com/macros/s/AKfycbwK44rLxuTc2n1BHDdMXxaRDsuQZdvYdwaaX_on35N3wrYq8Cu85dAAh61s9W-avckw/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbzfK0wbujCWsA4yaBXsspnCzO9FJ3pxZlttfDNYgWGBCYQavtDDuYEGm99D5hHLkowz/exec", {
             method: "POST",
-            mode: "no-cors", 
-            body: formData
+            // IMPORTANTE: Al no usar no-cors, permitimos que el navegador maneje la respuesta
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(data).toString()
         });
 
-        // Como no podemos leer la respuesta en no-cors, asumimos éxito
-        alert("¡Enviado! Si los datos no aparecen en la hoja, revisa los nombres (name) de tus campos HTML.");
+        alert("¡Enviado!");
         form.reset();
     } catch (e) {
-        alert("Error crítico: " + e.message);
+        alert("Error: " + e);
     } finally {
-        btn.innerText = "Finalizar y Enviar Resultados";
         btn.disabled = false;
+        btn.innerText = "Enviar";
     }
 }
     </script>
