@@ -163,34 +163,32 @@
         }
 
         async function enviarResultados() {
-            const btn = document.getElementById('btnEnviar');
-            const form = document.getElementById('examenForm');
-            
-            // Cambiar estado del botón
-            btn.innerText = "Enviando...";
-            btn.disabled = true;
+    const btn = document.getElementById('btnEnviar');
+    const form = document.getElementById('examenForm');
+    
+    // Convertimos el formulario a un objeto simple
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
-            const formData = new FormData(form);
-            const datos = Object.fromEntries(formData.entries());
-            datos.timestamp = new Date().toLocaleString();
+    btn.innerText = "Enviando...";
+    btn.disabled = true;
 
-            try {
-                await fetch("https://script.google.com/macros/s/AKfycbzLEZ3lozCFW3TL69cqa_Ob5V7vq5PGM-XA_gYpG9Bu4Bh3ctZwM_Hw3kDQrx4x3_1U/exec", {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datos)
-                });
-                
-                alert("¡Gracias por completar el examen! Los resultados han sido registrados. ¡Que tengas mucha suerte!");
-                form.reset(); // Limpiar formulario
-            } catch (error) {
-                alert("Hubo un error al enviar. Por favor, intenta de nuevo.");
-            } finally {
-                btn.innerText = "Finalizar y Enviar Resultados";
-                btn.disabled = false;
-            }
-        }
-    </script>
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbz9pxj0nBfdV69PZ6N9IWJvesDAwEkWtnuHhlmD7BMVT7Gpgrchogy9_1xlwzBEMCeP/exec", {
+            method: "POST",
+            // IMPORTANTE: Al no usar no-cors, permitimos que el navegador maneje la respuesta
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(data).toString()
+        });
+
+        alert("¡Enviado!");
+        form.reset();
+    } catch (e) {
+        alert("Error: " + e);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Enviar";
+    }
+}    </script>
 </body>
 </html>
