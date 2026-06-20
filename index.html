@@ -185,20 +185,23 @@ async function enviarResultados() {
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
-    // Crear un objeto FormData
+    // Usamos FormData para que el navegador lo trate como un formulario estándar
     const formData = new FormData(form);
-    
+
     try {
-        // Enviar por POST usando fetch normal
-        const response = await fetch("https://script.google.com/macros/s/AKfycbyRBYAUW8ziocigtbLpcIBYAL6VWLlzCjNCSbtSeHM7IANWkuZMaRZzayog6OGBiPa5/exec", {
+        // Usamos 'no-cors'. Con este modo, el navegador no espera una respuesta
+        // detallada, solo envía el paquete.
+        await fetch("https://script.google.com/macros/s/AKfycbyRBYAUW8ziocigtbLpcIBYAL6VWLlzCjNCSbtSeHM7IANWkuZMaRZzayog6OGBiPa5/exec", {
             method: "POST",
-            body: formData // Esto envía los campos como formato de formulario
+            mode: "no-cors", 
+            body: formData
         });
 
-        alert("¡Enviado con éxito!");
+        // Como no podemos leer la respuesta en no-cors, asumimos éxito
+        alert("¡Enviado! Si los datos no aparecen en la hoja, revisa los nombres (name) de tus campos HTML.");
         form.reset();
     } catch (e) {
-        alert("Error: " + e.message);
+        alert("Error crítico: " + e.message);
     } finally {
         btn.innerText = "Finalizar y Enviar Resultados";
         btn.disabled = false;
