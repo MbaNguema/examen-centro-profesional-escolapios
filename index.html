@@ -118,49 +118,32 @@
             </div>
 
             <div class="tabs">
-                <button type="button" class="tab-btn active" onclick="openTab(event, 'cableado')">Cableado y
-                    Cisco</button>
+                <button type="button" class="tab-btn active" onclick="openTab(event, 'cableado')">Cableado y Cisco</button>
                 <button type="button" class="tab-btn" onclick="openTab(event, 'diagnostico')">Diagnóstico II</button>
             </div>
 
             <div id="cableado" class="tab-content active">
-                <div class="pregunta"><label>1. ¿Qué es el cableado estructurado y cuál es su ventaja principal frente a
-                        instalaciones improvisadas?</label><textarea name="c1"></textarea></div>
-                <div class="pregunta"><label>2. Explique la función del Backbone y del Cuarto de
-                        Telecomunicaciones.</label><textarea name="c2"></textarea></div>
-                <div class="pregunta"><label>3. ¿Para qué sirve un Patch Panel en un Rack?</label><textarea
-                        name="c3"></textarea></div>
-                <div class="pregunta"><label>4. En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos
-                        iguales (Switch-Switch)?</label><input type="text" name="c4"></div>
-                <div class="pregunta"><label>5. Escriba los comandos para configurar: Hostname R1, enable secret
-                        'cisco', banner 'Acceso'.</label><textarea name="c5"></textarea></div>
-                <div class="pregunta"><label>6. Diferencia entre 'enable password' y 'enable secret'.</label><textarea
-                        name="c6"></textarea></div>
-                <div class="pregunta"><label>7. Función de 'line vty 0 4' en un equipo Cisco.</label><textarea
-                        name="c7"></textarea></div>
-                <div class="pregunta"><label>8. Pasos para configurar un servidor DHCP en un router (Packet
-                        Tracer).</label><textarea name="c8"></textarea></div>
-                <div class="pregunta"><label>9. Comando para levantar una interfaz (ej. g0/0) y asignarle IP
-                        192.168.1.1.</label><textarea name="c9"></textarea></div>
-                <div class="pregunta"><label>10. Comando en la terminal del PC para verificar su configuración IP
-                        actual.</label><input type="text" name="c10"></div>
+                <div class="pregunta"><label>1. ¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?</label><textarea name="c1"></textarea></div>
+                <div class="pregunta"><label>2. Explique la función del Backbone y del Cuarto de Telecomunicaciones.</label><textarea name="c2"></textarea></div>
+                <div class="pregunta"><label>3. ¿Para qué sirve un Patch Panel en un Rack?</label><textarea name="c3"></textarea></div>
+                <div class="pregunta"><label>4. En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales (Switch-Switch)?</label><input type="text" name="c4"></div>
+                <div class="pregunta"><label>5. Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'.</label><textarea name="c5"></textarea></div>
+                <div class="pregunta"><label>6. Diferencia entre 'enable password' y 'enable secret'.</label><textarea name="c6"></textarea></div>
+                <div class="pregunta"><label>7. Función de 'line vty 0 4' en un equipo Cisco.</label><textarea name="c7"></textarea></div>
+                <div class="pregunta"><label>8. Pasos para configurar un servidor DHCP en un router (Packet Tracer).</label><textarea name="c8"></textarea></div>
+                <div class="pregunta"><label>9. Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1.</label><textarea name="c9"></textarea></div>
+                <div class="pregunta"><label>10. Comando en la terminal del PC para verificar su configuración IP actual.</label><input type="text" name="c10"></div>
             </div>
 
             <div id="diagnostico" class="tab-content">
-                <div class="pregunta"><label>1. ¿Qué síntoma físico presenta una PC si la batería CMOS está
-                        agotada?</label><input type="text" name="d1"></div>
-                <div class="pregunta"><label>2. ¿Qué pines mediría en una fuente ATX para verificar los 12V y
-                        5V?</label><textarea name="d2"></textarea></div>
-                <div class="pregunta"><label>3. Pasos de mantenimiento físico para memoria RAM ante una
-                        BSOD.</label><textarea name="d3"></textarea></div>
-                <div class="pregunta"><label>4. Escriba un script .bat (ipconfig, ping 8.8.8.8, ping google.com,
-                        pause).</label><textarea name="d4"></textarea></div>
-                <div class="pregunta"><label>5. ¿Qué debe incluir un informe técnico tras una
-                        reparación?</label><textarea name="d5"></textarea></div>
+                <div class="pregunta"><label>1. ¿Qué síntoma físico presenta una PC si la batería CMOS está agotada?</label><input type="text" name="d1"></div>
+                <div class="pregunta"><label>2. ¿Qué pines mediría en una fuente ATX para verificar los 12V y 5V?</label><textarea name="d2"></textarea></div>
+                <div class="pregunta"><label>3. Pasos de mantenimiento físico para memoria RAM ante una BSOD.</label><textarea name="d3"></textarea></div>
+                <div class="pregunta"><label>4. Escriba un script .bat (ipconfig, ping 8.8.8.8, ping google.com, pause).</label><textarea name="d4"></textarea></div>
+                <div class="pregunta"><label>5. ¿Qué debe incluir un informe técnico tras una reparación?</label><textarea name="d5"></textarea></div>
             </div>
 
-            <button type="button" id="btnEnviar" class="send" onclick="enviarResultados()">Finalizar y Enviar
-                Resultados</button>
+            <button type="button" id="btnEnviar" class="send" onclick="enviarResultados()">Finalizar y Enviar Resultados</button>
         </form>
     </div>
 
@@ -179,35 +162,35 @@
             evt.currentTarget.className += " active";
         }
 
-async function enviarResultados() {
-    const btn = document.getElementById('btnEnviar');
-    const form = document.getElementById('examenForm');
-    
-    // Convertimos el formulario a un objeto simple
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+        async function enviarResultados() {
+            const btn = document.getElementById('btnEnviar');
+            const form = document.getElementById('examenForm');
+            
+            // Cambiar estado del botón
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
 
-    btn.innerText = "Enviando...";
-    btn.disabled = true;
+            const formData = new FormData(form);
+            const datos = Object.fromEntries(formData.entries());
+            datos.timestamp = new Date().toLocaleString();
 
-    try {
-        await fetch("https://script.google.com/macros/s/AKfycbzfK0wbujCWsA4yaBXsspnCzO9FJ3pxZlttfDNYgWGBCYQavtDDuYEGm99D5hHLkowz/exec", {
-            method: "POST",
-            // IMPORTANTE: Al no usar no-cors, permitimos que el navegador maneje la respuesta
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(data).toString()
-        });
-
-        alert("¡Enviado!");
-        form.reset();
-    } catch (e) {
-        alert("Error: " + e);
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "Enviar";
-    }
-}
+            try {
+                await fetch("https://script.google.com/macros/s/AKfycbyW3XNpdHkgH7PP-jX8Oi3XqGGvMTsIBXAP14uJTjzirzGOLx7D4-DLo5HJHBjEDl4_/exec", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(datos)
+                });
+                
+                alert("¡Gracias por completar el examen! Los resultados han sido registrados. ¡Que tengas mucha suerte!");
+                form.reset(); // Limpiar formulario
+            } catch (error) {
+                alert("Hubo un error al enviar. Por favor, intenta de nuevo.");
+            } finally {
+                btn.innerText = "Finalizar y Enviar Resultados";
+                btn.disabled = false;
+            }
+        }
     </script>
-    </body>
-
+</body>
 </html>
