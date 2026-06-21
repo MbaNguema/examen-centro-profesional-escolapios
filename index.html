@@ -81,6 +81,8 @@
         <h1 style="text-align: center;">EXAMEN DE CABLEADO ESTRUCTURADO Y ENERGIA</h1>
 
         <form id="examenForm">
+            <input type="hidden" name="tipo_examen" value="Cableado">
+            
             <div class="datos-alumno">
                 <label>Nombre del Alumno:</label>
                 <input type="text" name="nombre_alumno" required>
@@ -117,6 +119,7 @@
 
             const nombre = formData.get('nombre_alumno');
             const fecha = formData.get('fecha_examen');
+            const tipoExamen = formData.get('tipo_examen');
 
             const preguntas = [
                 {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?"},
@@ -137,6 +140,7 @@
                     const params = new URLSearchParams({
                         nombre_alumno: nombre,
                         fecha_examen: fecha,
+                        tipo_examen: tipoExamen,
                         pregunta: p.texto,
                         respuesta: formData.get(p.id) || "En blanco"
                     });
