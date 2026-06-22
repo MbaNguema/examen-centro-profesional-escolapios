@@ -47,7 +47,7 @@
     </div>
 
     <script>
-        // CAMBIA ESTAS FECHAS A MAÑANA 23 DE JUNIO DE 2026
+        // Configuración de horario para mañana 23 de junio de 2026
         const horaInicio = new Date("2026-06-23T16:00:00").getTime();
         const horaFin = new Date("2026-06-23T18:00:00").getTime();
 
@@ -74,43 +74,52 @@
         }, 1000);
 
         async function enviarResultados() {
+            const btn = document.getElementById('btnEnviar');
             const form = document.getElementById('examenForm');
             const formData = new FormData(form);
+            
+            btn.innerText = "Enviando respuestas...";
+            btn.disabled = true;
+
             const nombre = formData.get('nombre_alumno');
             const fecha = formData.get('fecha_examen');
-            const tipo = formData.get('tipo_examen');
+            const tipoExamen = formData.get('tipo_examen');
 
             const preguntas = [
-                {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal?"},
+                {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?"},
                 {id: 'c2', texto: "Explique la función del Backbone y del Cuarto de Telecomunicaciones."},
                 {id: 'c3', texto: "¿Para qué sirve un Patch Panel en un Rack?"},
-                {id: 'c4', texto: "En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales?"},
+                {id: 'c4', texto: "En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales (Switch-Switch)?"},
                 {id: 'c5', texto: "Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'."},
                 {id: 'c6', texto: "Diferencia entre 'enable password' y 'enable secret'."},
                 {id: 'c7', texto: "Función de 'line vty 0 4' en un equipo Cisco."},
                 {id: 'c8', texto: "Pasos para configurar un servidor DHCP en un router (Packet Tracer)."},
                 {id: 'c9', texto: "Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1."},
                 {id: 'c10', texto: "Comando en la terminal del PC para verificar su configuración IP actual."},
-                {id: 'c11', texto: "Práctica Packet Tracer: Configura un Router 2911, un Switch y 6 PCs..."}
+                {id: 'c11', texto: "Práctica Packet Tracer: Configura un Router 2911, un Switch y 6 PCs. Red 10.10.10.0/8, Default Gateway 10.10.10.1. Configura DHCP, acceso remoto y configuración básica (Hostname, mensaje de bienvenida y contraseña igual al nombre del alumno en minúsculas). Describe brevemente los pasos realizados."}
             ];
-            
-            btn.innerText = "Enviando...";
-            btn.disabled = true;
 
             try {
                 for (const p of preguntas) {
                     const params = new URLSearchParams({
-                        nombre_alumno: nombre, fecha_examen: fecha, tipo_examen: tipo,
-                        pregunta: p.texto, respuesta: formData.get(p.id) || "En blanco"
+                        nombre_alumno: nombre,
+                        fecha_examen: fecha,
+                        tipo_examen: tipoExamen,
+                        pregunta: p.texto,
+                        respuesta: formData.get(p.id) || "En blanco"
                     });
+
                     await fetch("https://script.google.com/macros/s/AKfycbzuP-cf1ftsAT6xckeBYhr7ZNuLjOw_9fWpE7bPnxCaHLae18T_OS_ZHDq5EatA7ZEyMQ/exec", {
-                        method: "POST", mode: "no-cors", body: params
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: params
                     });
                 }
                 alert("¡Examen enviado con éxito!");
                 form.reset();
             } catch (e) {
-                alert("Error: " + e.message);
+                alert("Error al enviar: " + e.message);
             } finally {
                 btn.innerText = "Finalizar y Enviar Resultados";
                 btn.disabled = false;
