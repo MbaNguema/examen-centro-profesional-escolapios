@@ -29,15 +29,25 @@
             </div>
 
             <div id="cableado">
-                <div class="pregunta"><label>1. ¿Qué es el cableado estructurado?</label><textarea name="c1"></textarea></div>
-                </div>
+                <div class="pregunta"><label>1. ¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?</label><textarea name="c1"></textarea></div>
+                <div class="pregunta"><label>2. Explique la función del Backbone y del Cuarto de Telecomunicaciones.</label><textarea name="c2"></textarea></div>
+                <div class="pregunta"><label>3. ¿Para qué sirve un Patch Panel en un Rack?</label><textarea name="c3"></textarea></div>
+                <div class="pregunta"><label>4. En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales (Switch-Switch)?</label><input type="text" name="c4"></div>
+                <div class="pregunta"><label>5. Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'.</label><textarea name="c5"></textarea></div>
+                <div class="pregunta"><label>6. Diferencia entre 'enable password' y 'enable secret'.</label><textarea name="c6"></textarea></div>
+                <div class="pregunta"><label>7. Función de 'line vty 0 4' en un equipo Cisco.</label><textarea name="c7"></textarea></div>
+                <div class="pregunta"><label>8. Pasos para configurar un servidor DHCP en un router (Packet Tracer).</label><textarea name="c8"></textarea></div>
+                <div class="pregunta"><label>9. Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1.</label><textarea name="c9"></textarea></div>
+                <div class="pregunta"><label>10. Comando en la terminal del PC para verificar su configuración IP actual.</label><input type="text" name="c10"></div>
+                <div class="pregunta"><label>11. Práctica Packet Tracer: Configura un Router 2911, un Switch y 6 PCs. Red 10.10.10.0/8, Default Gateway 10.10.10.1. Configura DHCP, acceso remoto y configuración básica (Hostname, mensaje de bienvenida y contraseña igual al nombre del alumno en minúsculas). Describe brevemente los pasos realizados.</label><textarea name="c11"></textarea></div>
+            </div>
 
             <button type="button" id="btnEnviar" class="send" onclick="enviarResultados()" disabled>Finalizar y Enviar Resultados</button>
         </form>
     </div>
 
     <script>
-        // Configuración de horario: 22 de junio de 2026, de 16:00 a 18:00
+        // CAMBIA ESTAS FECHAS A MAÑANA 23 DE JUNIO DE 2026
         const horaInicio = new Date("2026-06-23T16:00:00").getTime();
         const horaFin = new Date("2026-06-23T18:00:00").getTime();
 
@@ -49,16 +59,16 @@
             const distancia = horaFin - ahora;
 
             if (ahora < horaInicio) {
-                timerDisplay.innerHTML = "El examen comienza en breve...";
+                timerDisplay.innerHTML = "El examen comienza mañana a las 16:00";
                 btn.disabled = true;
             } else if (distancia < 0) {
                 clearInterval(x);
                 timerDisplay.innerHTML = "TIEMPO FINALIZADO";
                 btn.disabled = true;
             } else {
-                const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-                const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-                timerDisplay.innerHTML = "Tiempo restante: " + minutos + "m " + segundos + "s ";
+                const m = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distancia % (1000 * 60)) / 1000);
+                timerDisplay.innerHTML = "Tiempo restante: " + m + "m " + s + "s ";
                 btn.disabled = false;
             }
         }, 1000);
@@ -66,16 +76,41 @@
         async function enviarResultados() {
             const form = document.getElementById('examenForm');
             const formData = new FormData(form);
+            const nombre = formData.get('nombre_alumno');
+            const fecha = formData.get('fecha_examen');
+            const tipo = formData.get('tipo_examen');
+
+            const preguntas = [
+                {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal?"},
+                {id: 'c2', texto: "Explique la función del Backbone y del Cuarto de Telecomunicaciones."},
+                {id: 'c3', texto: "¿Para qué sirve un Patch Panel en un Rack?"},
+                {id: 'c4', texto: "En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales?"},
+                {id: 'c5', texto: "Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'."},
+                {id: 'c6', texto: "Diferencia entre 'enable password' y 'enable secret'."},
+                {id: 'c7', texto: "Función de 'line vty 0 4' en un equipo Cisco."},
+                {id: 'c8', texto: "Pasos para configurar un servidor DHCP en un router (Packet Tracer)."},
+                {id: 'c9', texto: "Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1."},
+                {id: 'c10', texto: "Comando en la terminal del PC para verificar su configuración IP actual."},
+                {id: 'c11', texto: "Práctica Packet Tracer: Configura un Router 2911, un Switch y 6 PCs..."}
+            ];
             
             btn.innerText = "Enviando...";
             btn.disabled = true;
 
             try {
-                // ... (lógica de tu fetch igual que la tenías) ...
+                for (const p of preguntas) {
+                    const params = new URLSearchParams({
+                        nombre_alumno: nombre, fecha_examen: fecha, tipo_examen: tipo,
+                        pregunta: p.texto, respuesta: formData.get(p.id) || "En blanco"
+                    });
+                    await fetch("https://script.google.com/macros/s/AKfycbzuP-cf1ftsAT6xckeBYhr7ZNuLjOw_9fWpE7bPnxCaHLae18T_OS_ZHDq5EatA7ZEyMQ/exec", {
+                        method: "POST", mode: "no-cors", body: params
+                    });
+                }
                 alert("¡Examen enviado con éxito!");
                 form.reset();
             } catch (e) {
-                alert("Error al enviar.");
+                alert("Error: " + e.message);
             } finally {
                 btn.innerText = "Finalizar y Enviar Resultados";
                 btn.disabled = false;
