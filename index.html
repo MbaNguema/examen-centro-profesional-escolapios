@@ -47,9 +47,9 @@
     </div>
 
     <script>
-        // Configuración de horario: 5:57 a 7:00 del 23 de junio de 2026
-        const horaInicio = new Date("2026-06-23T6:00:00").getTime();
-        const horaFin = new Date("2026-06-23T8:00:00").getTime();
+        // Configuración de horario: 16:00 a 18:00 del 23 de junio de 2026
+        const horaInicio = new Date("2026-06-23T16:00:00").getTime();
+        const horaFin = new Date("2026-06-23T18:00:00").getTime();
 
         const timerDisplay = document.getElementById('timer');
         const btn = document.getElementById('btnEnviar');
@@ -59,7 +59,7 @@
             const distancia = horaFin - ahora;
 
             if (ahora < horaInicio) {
-                timerDisplay.innerHTML = "El examen comienza a las 6:00";
+                timerDisplay.innerHTML = "El examen comienza a las 16:00";
                 btn.disabled = true;
             } else if (distancia < 0) {
                 clearInterval(x);
@@ -85,7 +85,7 @@
                 // Enviamos todo el formulario en una sola petición
                 const params = new URLSearchParams(formData);
 
-                await fetch("https://script.google.com/macros/s/AKfycbyFBvbQr9MQuY_lL1-l5os30WzLzA9HlTqVNt_ShmKpJzTAcFPfNrUhcH_we0yeqErHPQ/exec", {
+                await fetch("https://script.google.com/macros/s/AKfycbzF7NlJXoSt6m9ezJh-qqsMKgjPAdKudjFDQB3M0bDv24d38BRSKZ6RF3mg3hiMNnUqbg/exec", {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
