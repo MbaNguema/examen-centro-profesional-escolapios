@@ -48,8 +48,8 @@
 
     <script>
         // Configuración de horario: 5:57 a 7:00 del 23 de junio de 2026
-        const horaInicio = new Date("2026-06-23T16:00:00").getTime();
-        const horaFin = new Date("2026-06-23T18:00:00").getTime();
+        const horaInicio = new Date("2026-06-23T6:00:00").getTime();
+        const horaFin = new Date("2026-06-23T8:00:00").getTime();
 
         const timerDisplay = document.getElementById('timer');
         const btn = document.getElementById('btnEnviar');
@@ -59,7 +59,7 @@
             const distancia = horaFin - ahora;
 
             if (ahora < horaInicio) {
-                timerDisplay.innerHTML = "El examen comienza a las 16:00";
+                timerDisplay.innerHTML = "El examen comienza a las 6:00";
                 btn.disabled = true;
             } else if (distancia < 0) {
                 clearInterval(x);
