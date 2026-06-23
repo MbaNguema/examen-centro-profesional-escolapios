@@ -47,9 +47,9 @@
     </div>
 
     <script>
-        // Configuración de horario para mañana 23 de junio de 2026
-        const horaInicio = new Date("2026-06-23T5:00:00").getTime();
-        const horaFin = new Date("2026-06-23T6:00:00").getTime();
+        // Configuración de horario: 5:57 a 7:00 del 23 de junio de 2026
+        const horaInicio = new Date("2026-06-23T05:57:00").getTime();
+        const horaFin = new Date("2026-06-23T07:00:00").getTime();
 
         const timerDisplay = document.getElementById('timer');
         const btn = document.getElementById('btnEnviar');
@@ -59,7 +59,7 @@
             const distancia = horaFin - ahora;
 
             if (ahora < horaInicio) {
-                timerDisplay.innerHTML = "El examen comienza mañana a las 5:00";
+                timerDisplay.innerHTML = "El examen comienza a las 5:57";
                 btn.disabled = true;
             } else if (distancia < 0) {
                 clearInterval(x);
@@ -81,41 +81,17 @@
             btn.innerText = "Enviando respuestas...";
             btn.disabled = true;
 
-            const nombre = formData.get('nombre_alumno');
-            const fecha = formData.get('fecha_examen');
-            const tipoExamen = formData.get('tipo_examen');
-
-            const preguntas = [
-                {id: 'c1', texto: "¿Qué es el cableado estructurado y cuál es su ventaja principal frente a instalaciones improvisadas?"},
-                {id: 'c2', texto: "Explique la función del Backbone y del Cuarto de Telecomunicaciones."},
-                {id: 'c3', texto: "¿Para qué sirve un Patch Panel en un Rack?"},
-                {id: 'c4', texto: "En Packet Tracer, ¿qué cable usaría para conectar dos dispositivos iguales (Switch-Switch)?"},
-                {id: 'c5', texto: "Escriba los comandos para configurar: Hostname R1, enable secret 'cisco', banner 'Acceso'."},
-                {id: 'c6', texto: "Diferencia entre 'enable password' y 'enable secret'."},
-                {id: 'c7', texto: "Función de 'line vty 0 4' en un equipo Cisco."},
-                {id: 'c8', texto: "Pasos para configurar un servidor DHCP en un router (Packet Tracer)."},
-                {id: 'c9', texto: "Comando para levantar una interfaz (ej. g0/0) y asignarle IP 192.168.1.1."},
-                {id: 'c10', texto: "Comando en la terminal del PC para verificar su configuración IP actual."},
-                {id: 'c11', texto: "Práctica Packet Tracer: Configura un Router 2911, un Switch y 6 PCs. Red 10.10.10.0/8, Default Gateway 10.10.10.1. Configura DHCP, acceso remoto y configuración básica (Hostname, mensaje de bienvenida y contraseña igual al nombre del alumno en minúsculas). Describe brevemente los pasos realizados."}
-            ];
-
             try {
-                for (const p of preguntas) {
-                    const params = new URLSearchParams({
-                        nombre_alumno: nombre,
-                        fecha_examen: fecha,
-                        tipo_examen: tipoExamen,
-                        pregunta: p.texto,
-                        respuesta: formData.get(p.id) || "En blanco"
-                    });
+                // Enviamos todo el formulario en una sola petición
+                const params = new URLSearchParams(formData);
 
-                    await fetch("https://script.google.com/macros/s/AKfycbzhKf_TWT0V7_a358eL_tKLaykqugbXU6Q7E7SFALhXL9UeoBqrkkqL7M45-GZfhzEaDg/exec", {
-                        method: "POST",
-                        mode: "no-cors",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: params
-                    });
-                }
+                await fetch("https://script.google.com/macros/s/AKfycbzhKf_TWT0V7_a358eL_tKLaykqugbXU6Q7E7SFALhXL9UeoBqrkkqL7M45-GZfhzEaDg/exec", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: params
+                });
+
                 alert("¡Examen enviado con éxito!");
                 form.reset();
             } catch (e) {
